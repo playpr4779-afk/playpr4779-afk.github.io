@@ -303,6 +303,18 @@ const experienceDetails = {
       },
     ],
   },
+  kcmf: {
+    title: "시청자미디어재단",
+    programs: [
+      {
+        title: "방송·미디어 체험",
+        paragraphs: [
+          "미디어나눔버스에서 TV 뉴스 제작, 라디오 방송, 더빙과 음향 효과 제작 등 다양한 방송 콘텐츠의 제작 과정을 직접 경험하는 프로그램입니다.",
+          "아나운서, 기자, 기상캐스터, 성우, DJ 등 방송 관련 역할을 체험하며 미디어가 만들어지고 활용되는 과정을 쉽고 재미있게 배울 수 있습니다.",
+        ],
+      },
+    ],
+  },
 };
 
 const openExperienceDetail = (companyKey) => {
@@ -419,8 +431,59 @@ if (menuButton && navigation && header) {
 }
 
 navLinks.forEach((link) => link.addEventListener("click", closeMenu));
+
+const desktopNavigationQuery = window.matchMedia("(min-width: 1021px)");
+const syncMenuWithViewport = (event) => {
+  if (event.matches) closeMenu();
+};
+
+if (typeof desktopNavigationQuery.addEventListener === "function") {
+  desktopNavigationQuery.addEventListener("change", syncMenuWithViewport);
+} else {
+  desktopNavigationQuery.addListener(syncMenuWithViewport);
+}
+
 window.addEventListener("scroll", setHeaderState, { passive: true });
 setHeaderState();
+
+const scheduleSubjects = {
+  2: "피지컬AI챌린지",
+  3: "AI게임제작대회",
+  4: "드론콘텐츠리그",
+  5: "만화(웹툰)그리기대회",
+  6: "AI영상제작대회",
+};
+
+document.querySelectorAll(".schedule-event").forEach((event) => {
+  const column = Number.parseInt(event.style.gridColumnStart || event.style.gridColumn, 10);
+  const subject = scheduleSubjects[column];
+  if (!subject) return;
+
+  const time = event.querySelector("span")?.textContent?.trim();
+  const title = event.querySelector("strong")?.textContent?.trim();
+  const description = event.querySelector("p")?.textContent?.trim();
+  event.setAttribute("aria-label", [subject, time, title, description].filter(Boolean).join(", "));
+});
+
+const scheduleTableWrap = document.querySelector(".schedule-table-wrap");
+const scheduleScrollHint = document.querySelector("#schedule-scroll-hint");
+const syncScheduleScrollAccessibility = () => {
+  if (!scheduleTableWrap) return;
+  const isHorizontallyScrollable = scheduleTableWrap.scrollWidth > scheduleTableWrap.clientWidth + 2;
+
+  if (isHorizontallyScrollable) {
+    scheduleTableWrap.setAttribute("tabindex", "0");
+    scheduleTableWrap.setAttribute("aria-describedby", "schedule-scroll-hint");
+  } else {
+    scheduleTableWrap.removeAttribute("tabindex");
+    scheduleTableWrap.removeAttribute("aria-describedby");
+  }
+
+  scheduleScrollHint?.setAttribute("aria-hidden", String(!isHorizontallyScrollable));
+};
+
+window.addEventListener("resize", syncScheduleScrollAccessibility);
+syncScheduleScrollAccessibility();
 
 document.querySelectorAll("[data-program-open]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -661,3 +724,108 @@ if ("IntersectionObserver" in window) {
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMenu();
 });
+
+const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+if (finePointerQuery.matches && !reduceMotionQuery.matches) {
+  const cursorRoot = document.documentElement;
+  const cursorLayer = document.createElement("div");
+  const cursorDot = document.createElement("div");
+  const cursorTrail = document.createElement("div");
+  const interactiveSelector = "a, button, summary, input, select, textarea, [role='button']";
+
+  cursorLayer.className = "festival-cursor-layer";
+  cursorLayer.setAttribute("popover", "manual");
+  cursorLayer.setAttribute("aria-hidden", "true");
+  cursorDot.className = "festival-cursor";
+  cursorTrail.className = "festival-cursor-trail";
+  cursorDot.setAttribute("aria-hidden", "true");
+  cursorTrail.setAttribute("aria-hidden", "true");
+  cursorLayer.append(cursorTrail, cursorDot);
+  document.body.append(cursorLayer);
+
+  const supportsCursorPopover = typeof cursorLayer.showPopover === "function";
+  const openCursorDialogs = [...document.querySelectorAll("dialog[open]")];
+
+  const raiseCursorLayer = () => {
+    if (supportsCursorPopover) {
+      if (cursorLayer.matches(":popover-open")) cursorLayer.hidePopover();
+      cursorLayer.showPopover();
+      return;
+    }
+
+    const activeDialog = openCursorDialogs[openCursorDialogs.length - 1];
+    (activeDialog ?? document.body).append(cursorTrail, cursorDot);
+  };
+
+  const cursorDialogObserver = new MutationObserver((mutations) => {
+    mutations.forEach(({ target }) => {
+      if (!(target instanceof HTMLDialogElement)) return;
+
+      const stackIndex = openCursorDialogs.indexOf(target);
+      if (stackIndex >= 0) openCursorDialogs.splice(stackIndex, 1);
+      if (target.open) openCursorDialogs.push(target);
+    });
+
+    raiseCursorLayer();
+  });
+
+  document.querySelectorAll("dialog").forEach((dialog) => {
+    cursorDialogObserver.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+  });
+
+  raiseCursorLayer();
+
+  let cursorX = -100;
+  let cursorY = -100;
+  let trailX = -100;
+  let trailY = -100;
+  let cursorStarted = false;
+
+  const placeCursor = (element, x, y) => {
+    element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+  };
+
+  const animateCursor = () => {
+    trailX += (cursorX - trailX) * 0.18;
+    trailY += (cursorY - trailY) * 0.18;
+    placeCursor(cursorTrail, trailX, trailY);
+    window.requestAnimationFrame(animateCursor);
+  };
+
+  document.addEventListener("pointermove", (event) => {
+    if (event.pointerType && event.pointerType !== "mouse") return;
+
+    cursorX = event.clientX;
+    cursorY = event.clientY;
+
+    if (!cursorStarted) {
+      trailX = cursorX;
+      trailY = cursorY;
+      placeCursor(cursorTrail, trailX, trailY);
+      cursorStarted = true;
+    }
+
+    const moveTarget = event.target instanceof Element ? event.target : null;
+    placeCursor(cursorDot, cursorX, cursorY);
+    cursorRoot.classList.add("festival-cursor-ready", "festival-cursor-visible");
+    cursorRoot.classList.toggle("festival-cursor-interactive", Boolean(moveTarget?.closest(interactiveSelector)));
+  }, { passive: true });
+
+  document.addEventListener("pointerover", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    cursorRoot.classList.toggle("festival-cursor-interactive", Boolean(target?.closest(interactiveSelector)));
+  }, { passive: true });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!event.pointerType || event.pointerType === "mouse") cursorRoot.classList.add("festival-cursor-pressed");
+  }, { passive: true });
+
+  document.addEventListener("pointerup", () => cursorRoot.classList.remove("festival-cursor-pressed"), { passive: true });
+  document.addEventListener("pointercancel", () => cursorRoot.classList.remove("festival-cursor-pressed"), { passive: true });
+  document.documentElement.addEventListener("mouseleave", () => {
+    cursorRoot.classList.remove("festival-cursor-visible", "festival-cursor-interactive", "festival-cursor-pressed");
+  });
+
+  animateCursor();
+}

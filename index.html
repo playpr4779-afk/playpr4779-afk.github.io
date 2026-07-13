@@ -14,8 +14,8 @@
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260710-partner-logo-align-3" />
-    <script src="./script.js?v=20260710-partner-programs" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20260711-mobile-fixes" />
+    <script src="./script.js?v=20260711-mobile-fixes" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -38,12 +38,12 @@
         </button>
 
         <nav class="main-nav" id="main-navigation" aria-label="주요 메뉴" data-nav>
-          <a href="#about"><span>행사개요</span><small>01</small></a>
-          <a href="#theme"><span>프로그램</span><small>02</small></a>
-          <a href="#guide"><span>참가안내</span><small>03</small></a>
-          <a href="#schedule"><span>대회일정</span><small>04</small></a>
-          <a href="#awards"><span>심사·시상</span><small>05</small></a>
-          <a href="#faq"><span>FAQ</span><small>06</small></a>
+          <a href="#about"><span>행사개요</span><small>OVERVIEW</small></a>
+          <a href="#theme"><span>프로그램</span><small>PROGRAM</small></a>
+          <a href="#guide"><span>참가안내</span><small>GUIDE</small></a>
+          <a href="#schedule"><span>대회일정</span><small>SCHEDULE</small></a>
+          <a href="#awards"><span>심사·시상</span><small>AWARDS</small></a>
+          <a href="#faq"><span>FAQ</span><small>FAQ</small></a>
         </nav>
         <a class="header-apply" href="https://m.site.naver.com/2aPVG" target="_blank" rel="noreferrer">
           참가신청 <span aria-hidden="true">↗</span>
@@ -85,13 +85,16 @@
             <figure class="poster-card">
               <span class="poster-tape poster-tape-one" aria-hidden="true"></span>
               <span class="poster-tape poster-tape-two" aria-hidden="true"></span>
-              <img
-                src="./assets/main-poster-2026.jpg"
-                alt="상상을 현실로, 아이디어를 세계로. 2026 글로벌 청소년 콘텐츠 경진대회. 대회일 2026년 7월 25일 토요일, 대회장소 경남 로봇랜드 컨벤션센터, 접수기간 2026년 6월 22일부터."
-                width="2480"
-                height="3508"
-                fetchpriority="high"
-              />
+              <picture>
+                <source media="(max-width: 760px)" srcset="./assets/main-poster-2026-mobile.webp" type="image/webp" />
+                <img
+                  src="./assets/main-poster-2026.jpg"
+                  alt="상상을 현실로, 아이디어를 세계로. 2026 글로벌 청소년 콘텐츠 경진대회. 대회일 2026년 7월 25일 토요일, 대회장소 경남 로봇랜드 컨벤션센터, 접수기간 2026년 6월 22일부터."
+                  width="2480"
+                  height="3508"
+                  fetchpriority="high"
+                />
+              </picture>
             </figure>
             <div class="scribble" aria-hidden="true">LET’S<br />CREATE!</div>
           </div>
@@ -159,7 +162,10 @@
 
       <section class="section section-theme" id="theme" aria-labelledby="theme-title">
         <div class="marquee marquee-program" aria-hidden="true">
-          <div>CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON ·</div>
+          <div class="marquee-track">
+            <span>CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON ·</span>
+            <span>CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON · CHOOSE YOUR STAGE · PHYSICAL AI · DRONE · AI GAME · AI VIDEO · WEBTOON ·</span>
+          </div>
         </div>
         <div class="section-inner">
           <div class="split-heading reveal">
@@ -231,7 +237,10 @@
           <button class="dialog-close" type="button" data-award-close aria-label="시상계획 닫기">×</button>
           <p class="section-kicker">AWARDS</p>
           <h3 id="award-dialog-title" data-award-title></h3>
-          <p class="award-dialog-guide">부문별 훈격과 시상 인원을 확인해 주세요.</p>
+          <p class="award-dialog-guide">
+            부문별 훈격과 시상 인원을 확인해 주세요.
+            <span class="mobile-table-scroll-hint"><b aria-hidden="true">↔</b> 좌우로 밀어 표 전체를 확인하세요.</span>
+          </p>
           <div class="award-table-shell" data-award-table></div>
         </div>
       </dialog>
@@ -271,6 +280,11 @@
             <button class="partner-card" type="button" data-company-open="mmday">
               <span class="partner-logo-frame"><img src="./assets/partner-mmday.jpg" alt="엠엠데이 로고" loading="lazy" /></span>
               <strong>엠엠데이</strong>
+              <span>체험 내용 보기</span>
+            </button>
+            <button class="partner-card" type="button" data-company-open="kcmf">
+              <span class="partner-logo-frame"><img src="./assets/partner-kcmf.png" alt="시청자미디어재단 로고" loading="lazy" /></span>
+              <strong>시청자미디어재단</strong>
               <span>체험 내용 보기</span>
             </button>
           </div>
@@ -365,10 +379,10 @@
               </div>
               <div class="mobile-map-card">
                 <img
-                  src="./assets/parking-guide.png"
-                  alt="경남로봇랜드 컨벤션센터와 주변 도로 및 주차장 위치 안내도"
-                  width="1920"
-                  height="1080"
+                  src="./assets/directions-map-mobile.png"
+                  alt="경남로봇랜드 컨벤션센터와 구복리, 해양경찰서 구복출장소, 코리아드론연구소 주변 위치 지도"
+                  width="609"
+                  height="475"
                   loading="lazy"
                 />
                 <div class="mobile-map-copy">
@@ -390,6 +404,8 @@
               <img
                 src="./assets/bus-schedule.png"
                 alt="2026 글로벌 청소년 콘텐츠 경진대회 셔틀버스 운행시간표. 마산역, 경남대, 로봇랜드, 로봇랜드 컨벤션센터 구간 운행."
+                width="891"
+                height="1260"
                 loading="lazy"
               />
               <figcaption>
@@ -406,6 +422,8 @@
               <img
                 src="./assets/parking-guide.png"
                 alt="경남로봇랜드 컨벤션센터 주변 주차 안내도. 코리아드론연구소, 로봇연구센터, 경남로봇랜드 컨벤션센터 주변 주차장과 로봇랜드로 왕복 1차선 주차 가능 구간 안내."
+                width="1833"
+                height="1041"
                 loading="lazy"
               />
             </figure>
@@ -418,6 +436,8 @@
               <img
                 src="./assets/venue-layout-colored.png"
                 alt="2026 글로벌 청소년 콘텐츠 경진대회 컬러 행사장 배치도. 푸드트럭, 방문객 휴식 공간, AI 영상 제작, AI 게임 제작, 무대 행사, 피지컬 AI, 웹툰 공모전, 드론콘텐츠 리그, 콘텐츠 체험 및 플리마켓 행사 구역 안내."
+                width="2008"
+                height="1834"
                 loading="lazy"
               />
             </figure>
@@ -441,9 +461,9 @@
                 <strong>5개 종목 통합 일정</strong>
                 <span>경기·제작·심사·시상 흐름을 시간순으로 비교해 보세요.</span>
               </div>
-              <p class="schedule-scroll-hint"><b aria-hidden="true">↔</b> 좌우로 밀어 종목별 일정을 확인하세요.</p>
+              <p class="schedule-scroll-hint" id="schedule-scroll-hint"><b aria-hidden="true">↔</b> 좌우로 밀어 종목별 일정을 확인하세요.</p>
             </div>
-            <div class="schedule-table-wrap" aria-label="종목별 대회 상세 일정">
+            <div class="schedule-table-wrap" role="region" aria-label="종목별 대회 상세 일정">
               <div class="schedule-board">
                 <div class="schedule-head schedule-time-head" style="grid-column: 1; grid-row: 1;">시간</div>
                 <div class="schedule-head" style="grid-column: 2; grid-row: 1;">피지컬AI<wbr />챌린지</div>
@@ -854,23 +874,23 @@
               <ul class="faq-contact-list">
                 <li>
                   <strong>피지컬AI챌린지</strong>
-                  <span>㈜추론 / 010-6314-1725, 010-5276-1739</span>
+                  <span>㈜추론 / <a href="tel:010-6314-1725">010-6314-1725</a>, <a href="tel:010-5276-1739">010-5276-1739</a></span>
                 </li>
                 <li>
                   <strong>드론콘텐츠리그</strong>
-                  <span>㈜코코드론 / 055-311-0098</span>
+                  <span>㈜코코드론 / <a href="tel:055-311-0098">055-311-0098</a></span>
                 </li>
                 <li>
                   <strong>AI게임제작대회</strong>
-                  <span>㈜공감오래콘텐츠 / 055-338-6705</span>
+                  <span>㈜공감오래콘텐츠 / <a href="tel:055-338-6705">055-338-6705</a></span>
                 </li>
                 <li>
                   <strong>AI영상제작대회</strong>
-                  <span>㈜알리아스 / 055-333-0233</span>
+                  <span>㈜알리아스 / <a href="tel:055-333-0233">055-333-0233</a></span>
                 </li>
                 <li>
                   <strong>만화(웹툰)그리기대회</strong>
-                  <span>㈜피플앤스토리 / 055-337-3486</span>
+                  <span>㈜피플앤스토리 / <a href="tel:055-337-3486">055-337-3486</a></span>
                 </li>
               </ul>
             </details>
