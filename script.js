@@ -80,7 +80,7 @@ const programDetails = {
   },
   webtoon: {
     eyebrow: "WEBTOON",
-    title: "만화(웹툰)그리기대회",
+    title: "만화그리기대회",
     awardKey: "webtoon",
     items: [
       ["대회운영", "㈜피플앤스토리"],
@@ -176,7 +176,7 @@ const awardDetails = {
     ],
   },
   webtoon: {
-    title: "만화(웹툰)그리기대회 시상계획",
+    title: "만화그리기대회 시상계획",
     groups: [
       {
         label: "웹툰 공모전",
@@ -225,14 +225,12 @@ const experienceDetails = {
         title: "캐리커처",
         paragraphs: [
           "현장에서 전문 작가가 방문객의 얼굴 특징을 살려 캐리커처를 그려주는 체험 프로그램입니다.",
-          "완성된 그림은 기념품처럼 가져갈 수 있어 행사 만족도와 체류 시간을 높이는 데 효과적입니다.",
         ],
       },
       {
         title: "라이브드로잉",
         paragraphs: [
           "작가가 현장에서 그림을 완성해가는 과정을 직접 보여주는 드로잉 퍼포먼스입니다.",
-          "방문객이 그림이 만들어지는 과정을 가까이에서 볼 수 있어 플리마켓 현장의 볼거리와 분위기 연출에 적합합니다.",
         ],
       },
       {
@@ -295,9 +293,9 @@ const experienceDetails = {
     title: "엠엠데이",
     programs: [
       {
-        title: "자체 IP ‘짹’ 굿즈 플리마켓",
+        title: "MMDAY 굿즈 플리마켓",
         paragraphs: [
-          "엠엠데이의 자체 IP 캐릭터 ‘짹’을 활용한 다양한 굿즈를 소개하고 판매하는 플리마켓 부스입니다.",
+          "‘MMDAY(엠엠데이)’의 캐릭터 IP ‘MMDAYZ(엠엠데이즈)’를 활용한 다양한 굿즈를 소개하고 판매하는 플리마켓 부스입니다.",
           "방문객이 캐릭터 상품을 현장에서 직접 살펴보고 구매할 수 있습니다.",
         ],
       },
@@ -450,20 +448,136 @@ const scheduleSubjects = {
   2: "피지컬AI챌린지",
   3: "AI게임제작대회",
   4: "드론콘텐츠리그",
-  5: "만화(웹툰)그리기대회",
+  5: "만화그리기대회",
   6: "AI영상제작대회",
 };
 
-document.querySelectorAll(".schedule-event").forEach((event) => {
-  const column = Number.parseInt(event.style.gridColumnStart || event.style.gridColumn, 10);
-  const subject = scheduleSubjects[column];
-  if (!subject) return;
+const scheduleEvents = [...document.querySelectorAll(".schedule-board .schedule-event")];
+const getScheduleColumns = (event) => {
+  const [startValue, endValue] = event.style.gridColumn.split("/").map((value) => value.trim());
+  const start = Number.parseInt(startValue || event.style.gridColumnStart, 10);
+  const end = Number.parseInt(endValue, 10);
+
+  if (!Number.isFinite(start)) return [];
+  if (!Number.isFinite(end) || end <= start) return [start];
+
+  return Array.from({ length: end - start }, (_, index) => start + index);
+};
+
+const getScheduleStartMinutes = (time) => {
+  const match = time?.match(/(\d{1,2}):(\d{2})/);
+  return match ? Number(match[1]) * 60 + Number(match[2]) : Number.MAX_SAFE_INTEGER;
+};
+
+scheduleEvents.forEach((event) => {
+  const columns = getScheduleColumns(event);
+  const subjects = columns.map((column) => scheduleSubjects[column]).filter(Boolean);
+  if (!subjects.length) return;
 
   const time = event.querySelector("span")?.textContent?.trim();
   const title = event.querySelector("strong")?.textContent?.trim();
   const description = event.querySelector("p")?.textContent?.trim();
-  event.setAttribute("aria-label", [subject, time, title, description].filter(Boolean).join(", "));
+  event.dataset.scheduleColumns = columns.join(",");
+  event.setAttribute("aria-label", [subjects.join("·"), time, title, description].filter(Boolean).join(", "));
 });
+
+const scheduleMobileTabs = [...document.querySelectorAll("[data-schedule-lane]")].filter((element) => element.matches("button"));
+const scheduleMobileList = document.querySelector("[data-schedule-mobile-list]");
+const scheduleCurrentLabel = document.querySelector("[data-schedule-current]");
+const scheduleCurrentBar = document.querySelector("[data-schedule-current-bar]");
+
+const centerScheduleTab = (button) => {
+  const tabList = button?.parentElement;
+  if (!button || !tabList) return;
+
+  tabList.scrollTo({
+    left: button.offsetLeft - (tabList.clientWidth - button.offsetWidth) / 2,
+    behavior: "smooth",
+  });
+};
+
+const renderMobileSchedule = (column) => {
+  if (!scheduleMobileList || !scheduleSubjects[column]) return;
+
+  const selectedEvents = scheduleEvents
+    .filter((event) => event.dataset.scheduleColumns?.split(",").includes(String(column)))
+    .map((event, index) => {
+      const time = event.querySelector("span")?.textContent?.trim() || "시간 미정";
+      return { event, index, time, start: getScheduleStartMinutes(time) };
+    })
+    .sort((a, b) => a.start - b.start || a.index - b.index);
+
+  const groups = [];
+  selectedEvents.forEach((item) => {
+    const previousGroup = groups.at(-1);
+    if (previousGroup?.time === item.time) {
+      previousGroup.events.push(item.event);
+    } else {
+      groups.push({ time: item.time, events: [item.event] });
+    }
+  });
+
+  const items = groups.map((group) => {
+    const item = document.createElement("li");
+    item.className = "schedule-mobile-slot";
+
+    const time = document.createElement("time");
+    time.textContent = group.time;
+
+    const events = document.createElement("div");
+    events.className = "schedule-mobile-events";
+    events.replaceChildren(
+      ...group.events.map((event) => {
+        const clone = event.cloneNode(true);
+        clone.removeAttribute("style");
+        clone.classList.add("schedule-mobile-event");
+        clone.querySelector("span")?.remove();
+        return clone;
+      }),
+    );
+
+    item.append(time, events);
+    return item;
+  });
+
+  scheduleMobileList.replaceChildren(...items);
+  scheduleCurrentLabel.textContent = scheduleSubjects[column];
+  scheduleCurrentBar.dataset.scheduleLane = String(column);
+  scheduleMobileList.closest(".schedule-mobile-agenda")?.setAttribute("aria-label", `${scheduleSubjects[column]} 대회 일정`);
+};
+
+const selectScheduleLane = (column, { focus = false } = {}) => {
+  const activeButton = scheduleMobileTabs.find((button) => Number(button.dataset.scheduleLane) === column);
+  if (!activeButton) return;
+
+  scheduleMobileTabs.forEach((button) => {
+    const isActive = button === activeButton;
+    button.setAttribute("aria-selected", String(isActive));
+    button.tabIndex = isActive ? 0 : -1;
+  });
+
+  renderMobileSchedule(column);
+  centerScheduleTab(activeButton);
+  if (focus) activeButton.focus({ preventScroll: true });
+};
+
+scheduleMobileTabs.forEach((button, index) => {
+  button.addEventListener("click", () => selectScheduleLane(Number(button.dataset.scheduleLane)));
+  button.addEventListener("keydown", (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+
+    let nextIndex = index;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + scheduleMobileTabs.length) % scheduleMobileTabs.length;
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % scheduleMobileTabs.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = scheduleMobileTabs.length - 1;
+
+    selectScheduleLane(Number(scheduleMobileTabs[nextIndex].dataset.scheduleLane), { focus: true });
+  });
+});
+
+selectScheduleLane(2);
 
 const scheduleTableWrap = document.querySelector(".schedule-table-wrap");
 const scheduleScrollHint = document.querySelector("#schedule-scroll-hint");
