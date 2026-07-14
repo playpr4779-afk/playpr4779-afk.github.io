@@ -1938,6 +1938,105 @@ figcaption {
   grid-column: 8 / span 5;
 }
 
+.shuttle-stop-document {
+  grid-column: 1 / -1;
+}
+
+.shuttle-stop-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, .7fr);
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+}
+
+.shuttle-stop-route {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  border-right: 2px solid var(--ink);
+  background: #17212b;
+}
+
+.shuttle-stop-route img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.image-document .shuttle-stop-copy {
+  padding: clamp(24px, 3vw, 42px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(255, 255, 255, .8) 0 6px, transparent 7px),
+    radial-gradient(circle at 15% 88%, rgba(24, 23, 43, .13) 0 3px, transparent 4px),
+    var(--yellow);
+  background-size: 42px 42px, 34px 34px, auto;
+}
+
+.shuttle-stop-kicker {
+  margin-bottom: 18px;
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: .08em;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+}
+
+.shuttle-stop-copy > strong {
+  font-size: clamp(28px, 3.1vw, 46px);
+  font-weight: 1000;
+  line-height: 1.08;
+  letter-spacing: -.05em;
+}
+
+.shuttle-stop-copy > p {
+  margin: 18px 0 0;
+  font-size: 15px;
+  font-weight: 720;
+  line-height: 1.65;
+}
+
+.shuttle-stop-point {
+  width: 100%;
+  margin-top: 24px;
+  padding: 15px 17px;
+  display: grid;
+  gap: 5px;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-1deg);
+}
+
+.shuttle-stop-point span {
+  color: var(--purple);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .05em;
+}
+
+.shuttle-stop-point b {
+  font-size: clamp(22px, 2.3vw, 32px);
+  font-weight: 1000;
+  letter-spacing: -.04em;
+}
+
+.image-document .shuttle-stop-note {
+  margin-top: 22px;
+  padding-left: 13px;
+  font-size: 13px;
+  border-left: 4px solid var(--purple);
+}
+
 .parking-document {
   grid-column: 1 / span 5;
 }
@@ -3017,6 +3116,8 @@ figcaption {
   .program-card-button:nth-child(5) { grid-column: 2 / span 2; }
   .criteria-table-grid { grid-template-columns: 1fr 1fr; }
   .criteria-table-card:nth-child(3) { grid-column: 1 / -1; width: calc(50% - 11px); justify-self: center; }
+  .shuttle-stop-layout { grid-template-columns: 1fr; }
+  .shuttle-stop-route { border-right: 0; border-bottom: 2px solid var(--ink); }
 }
 
 @media (max-width: 760px) {
@@ -3114,7 +3215,7 @@ figcaption {
   .apply-form-action { inset: auto 0 0; width: auto; height: 70px; padding-inline: 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 3px dashed var(--ink); border-left: 0; }
   .apply-form-action i { flex: 0 0 auto; margin-left: auto; }
   .venue-guide-grid { display: grid; gap: 24px; }
-  .image-document, .directions-document, .shuttle-document, .parking-document, .venue-layout-document { grid-column: 1 / -1; transform: none !important; }
+  .image-document, .directions-document, .shuttle-document, .shuttle-stop-document, .parking-document, .venue-layout-document { grid-column: 1 / -1; transform: none !important; }
   .naver-map-frame { display: none; }
   .mobile-map-card { display: block; border: 2px solid var(--ink); }
   .mobile-map-card > img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
@@ -3124,6 +3225,14 @@ figcaption {
   .mobile-map-copy span { color: var(--muted); font-size: 13px; line-height: 1.55; }
   .mobile-map-copy a { min-height: 48px; margin-top: 6px; padding: 0 15px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 950; border: 2px solid var(--ink); border-radius: 11px; background: var(--yellow); }
   .image-document figcaption { font-size: 12px; }
+  .shuttle-stop-route img { height: auto; object-fit: contain; }
+  .image-document .shuttle-stop-copy { padding: 24px 18px 27px; }
+  .shuttle-stop-kicker { margin-bottom: 15px; font-size: 9px; }
+  .shuttle-stop-copy > strong { font-size: clamp(28px, 9vw, 38px); }
+  .shuttle-stop-copy > p { margin-top: 14px; font-size: 13px; }
+  .shuttle-stop-point { margin-top: 20px; padding: 13px 14px; box-shadow: 4px 4px 0 var(--ink); }
+  .shuttle-stop-point b { font-size: 25px; }
+  .image-document .shuttle-stop-note { margin-top: 20px; font-size: 12px; }
   .section-schedule { overflow: visible; }
   .schedule-shell { overflow: visible; }
   .schedule-ticker, .schedule-toolbar, .schedule-table-wrap { display: none; }
