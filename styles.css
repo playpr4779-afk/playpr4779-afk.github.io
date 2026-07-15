@@ -2030,6 +2030,15 @@ figcaption {
   letter-spacing: -.04em;
 }
 
+.shuttle-stop-point address {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
 .image-document .shuttle-stop-note {
   margin-top: 22px;
   padding-left: 13px;
@@ -3232,6 +3241,7 @@ figcaption {
   .shuttle-stop-copy > p { margin-top: 14px; font-size: 13px; }
   .shuttle-stop-point { margin-top: 20px; padding: 13px 14px; box-shadow: 4px 4px 0 var(--ink); }
   .shuttle-stop-point b { font-size: 25px; }
+  .shuttle-stop-point address { font-size: 12px; }
   .image-document .shuttle-stop-note { margin-top: 20px; font-size: 12px; }
   .section-schedule { overflow: visible; }
   .schedule-shell { overflow: visible; }
