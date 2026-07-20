@@ -2048,10 +2048,19 @@ figcaption {
 
 .parking-document {
   grid-column: 1 / span 5;
+  align-self: start;
 }
 
 .venue-layout-document {
   grid-column: 6 / span 7;
+  align-self: start;
+}
+
+.image-document.venue-layout-document > img {
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #fff;
 }
 
 .document-toolbar {
