@@ -1500,6 +1500,7 @@ figcaption {
 .partner-card:nth-child(5) { --partner-color: var(--coral); }
 .partner-card:nth-child(6) { --partner-color: var(--pink); }
 .partner-card:nth-child(7) { --partner-color: var(--blue); }
+.partner-card:nth-child(8) { --partner-color: var(--lavender); }
 
 .partner-card:hover {
   background: var(--partner-color);
@@ -1572,6 +1573,40 @@ figcaption {
 
 .partner-card[data-company-open="mmday"] .partner-logo-frame img {
   transform: scale(5.3);
+}
+
+.partner-card[data-company-open="gn-content-campus"] {
+  min-height: 286px;
+}
+
+.partner-logo-frame-dual {
+  height: 172px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-rows: 54px 1px 66px;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+}
+
+.partner-logo-frame-dual img {
+  width: auto;
+  max-width: 88%;
+  max-height: 100%;
+  align-self: center;
+  justify-self: center;
+}
+
+.partner-logo-divider {
+  width: 78%;
+  height: 1px;
+  background: rgba(24, 23, 43, .2);
+}
+
+.partner-card[data-company-open="gn-content-campus"] > strong {
+  font-size: 19px;
+  line-height: 1.25;
+  text-wrap: balance;
 }
 
 .partner-card > strong {
@@ -3209,6 +3244,7 @@ figcaption {
   .program-dialog, .award-dialog, .partner-dialog, .experience-detail-dialog { max-height: calc(100dvh - 24px); }
   .partner-dialog-panel, .experience-detail-panel { padding: 28px 20px; }
   .partner-dialog h3, .experience-detail-dialog h3 { margin-right: 52px; font-size: clamp(28px, 8.5vw, 34px); text-wrap: balance; }
+  .experience-detail-dialog[data-company="gn-content-campus"] h3 { font-size: 26px; line-height: 1.12; letter-spacing: -.045em; }
   .partner-dialog-guide { font-size: 13px; }
   .partner-grid { grid-template-columns: 1fr; gap: 14px; }
   .partner-card { min-height: 205px; }

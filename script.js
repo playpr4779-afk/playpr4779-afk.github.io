@@ -318,6 +318,18 @@ const experienceDetails = {
       },
     ],
   },
+  "gn-content-campus": {
+    title: "경남콘텐츠코리아랩 & 경남웹툰캠퍼스",
+    programs: [
+      {
+        title: "경남콘텐츠코리아랩 & 경남웹툰캠퍼스",
+        paragraphs: [
+          "경남의 콘텐츠 창작자와 예비 창업자를 지원하는 경남콘텐츠코리아랩, 웹툰 작가를 위한 경남웹툰캠퍼스를 소개하는 홍보부스입니다.",
+          "콘텐츠 창업과 웹툰 분야 지원사업을 안내하고, 다양한 이벤트를 통해 경남의 콘텐츠 산업과 창작 지원 프로그램을 알아볼 수 있습니다.",
+        ],
+      },
+    ],
+  },
 };
 
 const openExperienceDetail = (companyKey) => {
@@ -344,6 +356,7 @@ const openExperienceDetail = (companyKey) => {
   });
 
   experienceDetailTitle.textContent = data.title;
+  experienceDetailDialog.dataset.company = companyKey;
   experiencePrograms.replaceChildren(...programItems);
 
   if (typeof experienceDetailDialog.showModal === "function") {
