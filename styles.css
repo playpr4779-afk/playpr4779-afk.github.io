@@ -1576,36 +1576,46 @@ figcaption {
 }
 
 .partner-card[data-company-open="gn-content-campus"] {
-  min-height: 286px;
+  grid-column: span 2;
+  min-height: 230px;
 }
 
 .partner-logo-frame-dual {
-  height: 172px;
-  padding: 10px 14px;
+  height: 116px;
+  padding: 13px 18px;
   display: grid;
-  grid-template-rows: 54px 1px 66px;
-  align-content: center;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  align-items: center;
   justify-items: center;
-  gap: 8px;
+  gap: 18px;
 }
 
 .partner-logo-frame-dual img {
   width: auto;
-  max-width: 88%;
-  max-height: 100%;
+  max-width: 100%;
+  max-height: 82px;
   align-self: center;
   justify-self: center;
 }
 
+.partner-logo-frame-dual img:first-child {
+  width: min(90%, 180px);
+}
+
+.partner-logo-frame-dual img:last-child {
+  width: min(90%, 168px);
+}
+
 .partner-logo-divider {
-  width: 78%;
-  height: 1px;
+  width: 1px;
+  height: 68%;
   background: rgba(24, 23, 43, .2);
 }
 
 .partner-card[data-company-open="gn-content-campus"] > strong {
-  font-size: 19px;
-  line-height: 1.25;
+  font-size: 21px;
+  line-height: 1.2;
   text-wrap: balance;
 }
 
@@ -3248,6 +3258,10 @@ figcaption {
   .partner-dialog-guide { font-size: 13px; }
   .partner-grid { grid-template-columns: 1fr; gap: 14px; }
   .partner-card { min-height: 205px; }
+  .partner-card[data-company-open="gn-content-campus"] { grid-column: 1; min-height: 230px; }
+  .partner-logo-frame-dual { padding-inline: 12px; gap: 12px; }
+  .partner-logo-frame-dual img:first-child, .partner-logo-frame-dual img:last-child { width: 100%; max-width: 120px; }
+  .partner-card[data-company-open="gn-content-campus"] > strong { font-size: 19px; }
   .experience-program-item { padding: 23px 19px; }
   .experience-program-copy p { font-size: 15px; }
   .guide-panel { padding: 25px 20px; }
