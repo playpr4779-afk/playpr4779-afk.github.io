@@ -52,7 +52,7 @@ const programDetails = {
   },
   "ai-game": {
     eyebrow: "AI GAME",
-    title: "AI게임제작대회",
+    title: "AI활용게임제작대회",
     awardKey: "ai-game",
     items: [
       ["대회운영", "㈜공감오래콘텐츠"],
@@ -146,7 +146,7 @@ const awardDetails = {
     ],
   },
   "ai-game": {
-    title: "AI게임제작대회 시상계획",
+    title: "AI활용게임제작대회 시상계획",
     groups: [
       {
         label: "초등부",
@@ -262,9 +262,9 @@ const experienceDetails = {
     title: "공감오래콘텐츠",
     programs: [
       {
-        title: "AI 게임 제작 대회 결과물 체험",
+        title: "AI활용게임제작대회 결과물 체험",
         paragraphs: [
-          "AI 활용 게임 제작 대회 초등부 및 중·고등부 참가자들이 제작한 결과물과 시안을 직접 체험하며, 창의적인 아이디어가 디지털 콘텐츠로 구현되는 과정을 이해하고 경험할 수 있는 체험 프로그램입니다.",
+          "AI활용게임제작대회 초등부 및 중·고등부 참가자들이 제작한 결과물과 시안을 직접 체험하며, 창의적인 아이디어가 디지털 콘텐츠로 구현되는 과정을 이해하고 경험할 수 있는 체험 프로그램입니다.",
         ],
       },
     ],
@@ -464,7 +464,7 @@ setHeaderState();
 
 const scheduleSubjects = {
   2: "피지컬AI챌린지",
-  3: "AI게임제작대회",
+  3: "AI활용게임제작대회",
   4: "드론콘텐츠리그",
   5: "만화그리기대회",
   6: "AI영상제작대회",
